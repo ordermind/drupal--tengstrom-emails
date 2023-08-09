@@ -1,0 +1,12 @@
+view all email type entities:
+  title: View all email templates
+add email type entities:
+  title: Create new email templates
+edit email type entities:
+  title: Edit email templates
+delete email type entities:
+  title: Delete email templates
+preview email type entities:
+  title: Preview email templates
+tengstrom_emails.see_email_template_machine_name:
+  title. 'See e-mail template machine name'

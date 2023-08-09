@@ -1,0 +1,12 @@
+tengstrom_emails.render_easy_email:
+  path: '/admin/structure/email-templates/templates/{easy_email_type}/render'
+  defaults:
+    _controller: '\Drupal\tengstrom_emails\Controller\TengstromEmailsController::renderEasyEmail'
+  options:
+    parameters:
+      easy_email_type:
+        type: 'entity:easy_email_type'
+  requirements:
+    _entity_access: 'easy_email_type.preview'
+
+

@@ -1,0 +1,5 @@
+services:
+  tengstrom_emails.route_subscriber:
+    class: Drupal\tengstrom_emails\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
