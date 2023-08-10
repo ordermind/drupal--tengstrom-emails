@@ -7,6 +7,6 @@ dependencies:
   - easy_email:easy_email
   - html_filter_token_workaround:html_filter_token_workaround
   - tengstrom_configuration:tengstrom_configuration
-  - tengstrom_partials:tengstrom_partials
+  - tengstrom_text_partials:tengstrom_text_partials
 
 version: 0.1.0
