@@ -49,55 +49,11 @@ function tengstrom_emails_easy_email_type_create_access(AccountInterface $accoun
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function tengstrom_emails_form_easy_email_type_edit_form_alter(array &$form, FormStateInterface $formState) {
-  $account = Drupal::currentUser();
+function tengstrom_emails_form_easy_email_type_edit_form_alter(array &$form, FormStateInterface $formState, string $formId) {
+  /** @var \Drupal\tengstrom_emails\HookHandlers\FormAlterHandlers\EasyEmailTypeEditFormAlterHandler $service */
+  $service = \Drupal::service('tengstrom_emails.hook_handlers.easy_email_type_edit_form_alter');
 
-  // Use the same css styling as entity forms.
-  $form['#attributes']['class'][] = 'entity-form';
-  $form['label']['#description'] = t('This label is only used for administrative purposes.');
-
-  $hideFields = [
-    'key',
-    'to',
-    'sender',
-    'content',
-    'body_plain',
-  ];
-  foreach ($hideFields as $fieldName) {
-    if (!empty($form[$fieldName])) {
-      $form[$fieldName]['#access'] = FALSE;
-    }
-  }
-
-  if (!empty($form['id'])) {
-    $form['id']['#access'] = $account->hasPermission('tengstrom_emails.see_email_template_machine_name');
-  }
-
-  if (!empty($form['content']['subject'])) {
-    $form['subject'] = $form['content']['subject'];
-    $form['subject']['#weight'] = 5;
-    $form['subject']['#required'] = TRUE;
-    unset($form['content']['subject']);
-  }
-
-  if (!empty($form['body_html'])) {
-    $form['body_html']['#access'] = FALSE;
-  }
-
-  if (!empty($form['body_html']['bodyHtml'])) {
-    $form['bodyHtml'] = $form['body_html']['bodyHtml'];
-    $form['bodyHtml']['#title'] = t('Content');
-    $form['bodyHtml']['#weight'] = 10;
-    $form['bodyHtml']['#rows'] = 5;
-    $form['bodyHtml']['#required'] = TRUE;
-    $form['bodyHtml']['#after_build'] = ['tengstrom_emails_easy_email_type_edit_form_body_html_afterbuild'];
-    unset($form['body_html']['bodyHtml']);
-  }
-
-  if (!empty($form['tokens'])) {
-    $form['tokens']['#weight'] = 15;
-    $form['tokens']['#access'] = $account->hasPermission('administer email types');
-  }
+  $service->alter($form, $formState, $formId);
 }
 
 /**

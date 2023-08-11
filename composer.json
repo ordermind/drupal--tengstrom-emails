@@ -16,6 +16,11 @@
             "type": "vcs",
             "url": "git@github.com:ordermind/drupal--tengstrom-partials.git",
             "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:ordermind/drupal--tengstrom-shared.git",
+            "no-api": true
         }
     ],
     "require": {
@@ -23,7 +28,8 @@
         "drupal/easy_email": "2.1.x-dev",
         "drupal/html_filter_token_workaround": "dev-master",
         "drupal/tengstrom_configuration": "dev-master",
-        "drupal/tengstrom_partials": "dev-master"
+        "drupal/tengstrom_partials": "dev-master",
+        "ordermind/drupal--tengstrom-shared": "dev-master"
     }
 }
 

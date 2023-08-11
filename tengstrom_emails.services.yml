@@ -1,4 +1,13 @@
 services:
+  # Hook handlers
+  tengstrom_emails.hook_handlers.easy_email_type_edit_form_alter:
+    class: Drupal\tengstrom_emails\HookHandlers\FormAlterHandlers\EasyEmailTypeEditFormAlterHandler
+    arguments:
+      - '@config.factory'
+      - '@current_user'
+      - '@string_translation'
+
+  # Other services
   tengstrom_emails.route_subscriber:
     class: Drupal\tengstrom_emails\Routing\RouteSubscriber
     tags:
