@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\tengstrom_emails\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
