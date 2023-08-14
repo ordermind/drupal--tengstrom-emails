@@ -30,7 +30,7 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
 
   protected function addTengstromFormClass(array &$form): void {
     $form['#attributes']['class'][] = 'tengstrom-form';
-
+    $form['#attributes']['class'][] = 'entity-form';
   }
 
   protected function setLabelDescription(array &$form): void {
