@@ -2,48 +2,40 @@
 
 declare(strict_types=1);
 
-use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\image\Entity\ImageStyle;
-use Drupal\tengstrom_emails\EasyEmailTypeListBuilder;
 
 /**
  * Implements hook_entity_type_alter().
  */
 function tengstrom_emails_entity_type_alter(array &$entityTypes) {
-  if (empty($entityTypes['easy_email_type'])) {
-    return;
-  }
+  /** @var \Drupal\tengstrom_emails\HookHandlers\EntityTypeAlterHandler $service */
+  $service = \Drupal::service('tengstrom_emails.hook_handlers.entity_type_alter');
 
-  $entityTypes['easy_email_type']->setListBuilderClass(EasyEmailTypeListBuilder::class);
+  $service->alter($entityTypes);
 }
 
 /**
  * Implements hook_ENTITY_TYPE_access().
  */
-function tengstrom_emails_easy_email_type_access(EntityInterface $entity, string $operation, AccountInterface $account) {
-  $operationPermissionMapping = [
-    'preview' => 'preview email type entities',
-    'update' => 'edit email type entities',
-    'delete' => 'delete email type entities',
-  ];
+function tengstrom_emails_easy_email_type_access(EntityInterface $entity, string $operation, AccountInterface $account): AccessResultInterface {
+  /** @var \Drupal\tengstrom_emails\HookHandlers\EasyEmailTypeAccessHandler $service */
+  $service = \Drupal::service('tengstrom_emails.hook_handlers.easy_email_type_access_handler');
 
-  foreach ($operationPermissionMapping as $operationName => $permission) {
-    if ($operation === $operationName) {
-      return $account->hasPermission($permission) ? AccessResult::allowed() : AccessResult::forbidden();
-    }
-  }
-
-  return AccessResult::neutral();
+  return $service->checkAccess($entity, $operation, $account);
 }
 
 /**
  * Implements hook_ENTITY_TYPE_create_access().
  */
-function tengstrom_emails_easy_email_type_create_access(AccountInterface $account, array $context, ?string $entityBundle) {
-  return $account->hasPermission('add email type entities') ? AccessResult::allowed() : AccessResult::forbidden();
+function tengstrom_emails_easy_email_type_create_access(AccountInterface $account, array $context, ?string $entityBundle): AccessResultInterface {
+  /** @var \Drupal\tengstrom_emails\HookHandlers\EasyEmailTypeAccessHandler $service */
+  $service = \Drupal::service('tengstrom_emails.hook_handlers.easy_email_type_access_handler');
+
+  return $service->checkCreateAccess($account, $context, $entityBundle);
 }
 
 /**
@@ -54,24 +46,6 @@ function tengstrom_emails_form_easy_email_type_edit_form_alter(array &$form, For
   $service = \Drupal::service('tengstrom_emails.hook_handlers.easy_email_type_edit_form_alter');
 
   $service->alter($form, $formState, $formId);
-}
-
-/**
- * Afterbuild callback for bodyHtml element on easy email forms.
- */
-function tengstrom_emails_easy_email_type_edit_form_body_html_afterbuild(array $element, FormStateInterface $formState) {
-  if (!empty($element['format']['format']['#options']['e_mail'])) {
-    $element['format']['format']['#options'] = [
-      'e_mail' => $element['format']['format']['#options']['e_mail'],
-    ];
-
-    $element['format']['format']['#access'] = FALSE;
-    $element['format']['guidelines']['#access'] = FALSE;
-    $element['format']['help']['#access'] = FALSE;
-    $element['format']['#attributes']['class'][] = 'hidden';
-  }
-
-  return $element;
 }
 
 /**

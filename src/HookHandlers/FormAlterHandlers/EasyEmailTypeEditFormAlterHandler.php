@@ -30,6 +30,7 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
 
   protected function addTengstromFormClass(array &$form): void {
     $form['#attributes']['class'][] = 'tengstrom-form';
+
   }
 
   protected function setLabelDescription(array &$form): void {
@@ -81,7 +82,6 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     $form['bodyHtml']['#weight'] = 10;
     $form['bodyHtml']['#rows'] = 5;
     $form['bodyHtml']['#required'] = TRUE;
-    $form['bodyHtml']['#after_build'] = ['tengstrom_emails_easy_email_type_edit_form_body_html_afterbuild'];
     unset($form['body_html']['bodyHtml']);
   }
 
@@ -107,8 +107,6 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     }
 
     $form['bodyHtml']['#allowed_formats'] = $allowedFormats;
-    $form['bodyHtml']['#hide_help'] = TRUE;
-    $form['bodyHtml']['#hide_guidelines'] = TRUE;
   }
 
 }
