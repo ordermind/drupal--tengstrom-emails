@@ -9,6 +9,7 @@ use Drupal\file\FileInterface;
 use Drupal\image\ImageStyleInterface;
 use Drupal\tengstrom_config_email_logo\EmailLogoFileLoader;
 use Drupal\tengstrom_emails\HookHandlers\PreprocessHandlers\ValueObjects\LogoVariables;
+use Drupal\tengstrom_text_partials\Entity\TengstromTextPartial;
 use Ordermind\DrupalTengstromShared\HookHandlers\PreprocessHandlerInterface;
 
 class PreprocessEmailWrapHandler implements PreprocessHandlerInterface {
@@ -37,13 +38,12 @@ class PreprocessEmailWrapHandler implements PreprocessHandlerInterface {
       ->getStorage('tengstrom_text_partial')
       ->load('email_footer');
 
-    if (!$footerPartial) {
+    if (!($footerPartial instanceof TengstromTextPartial)) {
       return;
     }
 
-    $footerPartial = reset($footerPartial);
-    $viewBuilder = $this->entityTypeManager->getViewBuilder('tengstrom_text_partial');
-    $renderArray = $viewBuilder->view($footerPartial);
+    $renderArray = $footerPartial->toRenderArray();
+
     $variables['footer'] = $renderArray;
   }
 
