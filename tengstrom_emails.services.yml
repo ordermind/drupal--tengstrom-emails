@@ -13,6 +13,12 @@ services:
   tengstrom_emails.hook_handlers.entity_type_alter:
     class: Drupal\tengstrom_emails\HookHandlers\EntityTypeAlterHandler
 
+  tengstrom_emails.hook_handlers.preprocess_email_wrap:
+    class: Drupal\tengstrom_emails\HookHandlers\PreprocessHandlers\PreprocessEmailWrapHandler
+    arguments:
+      - '@tengstrom_config_email_logo.file_loader'
+      - '@entity_type.manager'
+
   # Other services
   tengstrom_emails.route_subscriber:
     class: Drupal\tengstrom_emails\Routing\RouteSubscriber

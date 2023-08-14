@@ -6,7 +6,6 @@ use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\image\Entity\ImageStyle;
 
 /**
  * Implements hook_entity_type_alter().
@@ -52,69 +51,8 @@ function tengstrom_emails_form_easy_email_type_edit_form_alter(array &$form, For
  * Implements template_preprocess_email_wrap().
  */
 function tengstrom_emails_preprocess_email_wrap(array &$variables) {
-  _tengstrom_emails_add_site_logo_to_emails($variables);
-  _tengstrom_emails_add_footer_partial_to_emails($variables);
-}
+  /** @var \Drupal\tengstrom_emails\HookHandlers\PreprocessHandlers\PreprocessEmailWrapHandler $service */
+  $service = \Drupal::service('tengstrom_emails.hook_handlers.preprocess_email_wrap');
 
-/**
- * Adds the e-mail logo as an e-mail template variable.
- */
-function _tengstrom_emails_add_site_logo_to_emails(array &$variables) {
-  $config = Drupal::config('tengstrom_configuration.settings');
-  $logoFileUuid = $config->get('logo_email_uuid');
-  if (!$logoFileUuid) {
-    return;
-  }
-
-  $fileStorage = Drupal::service('entity_type.manager')->getStorage('file');
-  $foundFiles = $fileStorage->loadByProperties(['uuid' => $logoFileUuid]);
-  if (!$foundFiles) {
-    return;
-  }
-
-  /** @var \Drupal\file\Entity\File $logoFile */
-  $logoFile = reset($foundFiles);
-
-  $getLogoVariables = function () use ($logoFile) {
-    $imageStyle = ImageStyle::load('logo_in_email');
-    if (!$imageStyle) {
-      $imageSize = getimagesize($logoFile->getFileUri());
-      return [
-        'url' => $logoFile->createFileUrl(FALSE),
-        'width' => $imageSize[0],
-        'height' => $imageSize[1],
-      ];
-    }
-
-    $styledImageUri = $imageStyle->buildUri($logoFile->uri->value);
-    $styledImageUrl = $imageStyle->buildUrl($logoFile->uri->value);
-    $imageStyle->createDerivative($logoFile->uri->value, $styledImageUri);
-    $styledImageSize = getimagesize($styledImageUri);
-    return [
-      'url' => $styledImageUrl,
-      'width' => $styledImageSize[0],
-      'height' => $styledImageSize[1],
-    ];
-  };
-
-  $variables['logo'] = $getLogoVariables();
-}
-
-/**
- * Makes the footer partial available in e-mails.
- */
-function _tengstrom_emails_add_footer_partial_to_emails(array &$variables) {
-  $footerPartial =
-    Drupal::entityTypeManager()
-      ->getStorage('partial')
-      ->loadByProperties(['uuid' => '578f3d63-09be-477d-8438-f9e8e23a974c']);
-
-  if (!$footerPartial) {
-    return;
-  }
-
-  $footerPartial = reset($footerPartial);
-  $viewBuilder = Drupal::entityTypeManager()->getViewBuilder('partial');
-  $renderArray = $viewBuilder->view($footerPartial);
-  $variables['footer'] = $renderArray;
+  $service->preprocess($variables);
 }
