@@ -48,7 +48,7 @@ class HtmlOnlyEmailAdjuster extends EmailAdjusterBase implements ContainerFactor
    */
   public function postRender(EmailInterface $email) {
     $html = $this->render($email, $email->getHtmlBody(), TRUE);
-    $email->setHtmlBody($html);
+    $email->setHtmlBody($html->__toString());
   }
 
   protected function render(EmailInterface $email, string $body) {
