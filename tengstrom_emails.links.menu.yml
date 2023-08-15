@@ -1,0 +1,5 @@
+tengstrom_email.list:
+  title: 'E-mail templates'
+  parent: tengstrom_mainmenu.config
+  route_name: entity.easy_email_type.collection
+  weight: 8
