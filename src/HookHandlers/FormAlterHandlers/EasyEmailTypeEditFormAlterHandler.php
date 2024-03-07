@@ -105,7 +105,7 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     $emailTemplateId = $formState->getFormObject()->getEntity()->id();
     $configName = "field.field.easy_email.{$emailTemplateId}.body_html";
     $settings = (array) $this->configFactory->get($configName)->get('settings');
-    $allowedFormats = $settings['allowed_formats'] ?? NULL;
+    $allowedFormats = $settings['allowed_formats'] ?? ['email_html'];
     if (!$allowedFormats) {
       return;
     }
