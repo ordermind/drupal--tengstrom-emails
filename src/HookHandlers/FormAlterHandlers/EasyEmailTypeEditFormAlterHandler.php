@@ -25,6 +25,7 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     $this->moveSubjectElement($form);
     $this->moveBodyHtmlElement($form);
     $this->moveTokensElement($form);
+    $this->moveEmailStorageElement($form);
     $this->setAllowedFormats($form, $formState);
   }
 
@@ -95,6 +96,14 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     }
 
     $form['tokens']['#weight'] = 15;
+  }
+
+  protected function moveEmailStorageElement(array &$form): void {
+    if (empty($form['email_storage'])) {
+      return;
+    }
+
+    $form['email_storage']['#weight'] = 20;
   }
 
   protected function setAllowedFormats(array &$form, FormStateInterface $formState): void {
