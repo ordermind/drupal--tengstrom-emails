@@ -59,6 +59,10 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     if (!empty($form['tokens'])) {
       $form['tokens']['#access'] = $this->currentUser->hasPermission('administer email types');
     }
+
+    if (!empty($form['email_storage'])) {
+      $form['email_storage']['#access'] = $this->currentUser->hasPermission('administer email types');
+    }
   }
 
   protected function moveSubjectElement(array &$form): void {

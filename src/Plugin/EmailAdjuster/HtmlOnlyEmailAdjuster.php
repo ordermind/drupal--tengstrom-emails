@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @EmailAdjuster(
  *   id = "tengstrom_email_html_only",
- *   label = @Translation("HTML only"),
+ *   label = @Translation("HTML only (Tengström)"),
  *   description = @Translation("Renders the e-mail as HTML only."),
  *   weight = 800,
  * )
