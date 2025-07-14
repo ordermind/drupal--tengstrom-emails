@@ -2,7 +2,7 @@ name: Tengström Emails
 type: module
 description: 'Provides interfaces for managing e-mails'
 package: Tengström Profile
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^10 || ^11
 dependencies:
   - easy_email:easy_email
   - html_filter_token_workaround:html_filter_token_workaround
