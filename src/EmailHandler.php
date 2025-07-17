@@ -13,10 +13,10 @@ class EmailHandler extends OverriddenHandler {
   /**
    * @inheritDoc
    */
-  public function sendEmail(EasyEmailInterface $email, $params = [], $send_duplicate = FALSE) {
+  public function sendEmail(EasyEmailInterface $email, $params = [], $send_duplicate = FALSE, $save_email_entity = FALSE) {
     $this->restoreTokenSeparator($email);
 
-    return parent::sendEmail($email, $params, $send_duplicate);
+    return parent::sendEmail($email, $params, $send_duplicate, $save_email_entity);
   }
 
   private function restoreTokenSeparator(EasyEmailInterface $email) {
