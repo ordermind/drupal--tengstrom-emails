@@ -16,7 +16,7 @@ class PreprocessEmailWrapHandler implements PreprocessHandlerInterface {
 
   public function __construct(
     protected EmailLogoFileLoader $logoFileLoader,
-    protected EntityTypeManagerInterface $entityTypeManager
+    protected EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
   public function preprocess(array &$variables): void {
@@ -58,7 +58,7 @@ class PreprocessEmailWrapHandler implements PreprocessHandlerInterface {
 
   protected function createLogoVariablesFromImageStyle(
     FileInterface $logoFile,
-    ImageStyleInterface $imageStyle
+    ImageStyleInterface $imageStyle,
   ): LogoVariables {
     $styledImageUri = $imageStyle->buildUri($logoFile->uri->value);
     $styledImageUrl = $imageStyle->buildUrl($logoFile->uri->value);
