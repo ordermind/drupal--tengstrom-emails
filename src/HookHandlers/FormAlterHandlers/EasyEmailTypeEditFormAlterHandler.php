@@ -26,7 +26,7 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     $this->moveBodyHtmlElement($form);
     $this->moveTokensElement($form);
     $this->moveEmailStorageElement($form);
-    $this->setAllowedFormats($form);
+    $this->setEmailBodyTextFormat($form);
   }
 
   protected function addTengstromFormClass(array &$form): void {
@@ -106,11 +106,12 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     $form['email_storage']['#weight'] = 20;
   }
 
-  protected function setAllowedFormats(array &$form): void {
+  protected function setEmailBodyTextFormat(array &$form): void {
     if (empty($form['bodyHtml'])) {
       return;
     }
 
+    $form['bodyHtml']['#format'] = 'email_html';
     $form['bodyHtml']['#allowed_formats'] = ['email_html'];
   }
 
