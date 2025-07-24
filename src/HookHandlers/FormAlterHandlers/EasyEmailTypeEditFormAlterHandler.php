@@ -15,7 +15,7 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
     protected AccountInterface $currentUser,
-    protected TranslationInterface $translator
+    protected TranslationInterface $translator,
   ) {}
 
   public function alter(array &$form, FormStateInterface $formState, string $formId): void {
@@ -26,7 +26,7 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     $this->moveBodyHtmlElement($form);
     $this->moveTokensElement($form);
     $this->moveEmailStorageElement($form);
-    $this->setAllowedFormats($form, $formState);
+    $this->setAllowedFormats($form);
   }
 
   protected function addTengstromFormClass(array &$form): void {
@@ -106,20 +106,12 @@ class EasyEmailTypeEditFormAlterHandler implements FormAlterHandlerInterface {
     $form['email_storage']['#weight'] = 20;
   }
 
-  protected function setAllowedFormats(array &$form, FormStateInterface $formState): void {
+  protected function setAllowedFormats(array &$form): void {
     if (empty($form['bodyHtml'])) {
       return;
     }
 
-    $emailTemplateId = $formState->getFormObject()->getEntity()->id();
-    $configName = "field.field.easy_email.{$emailTemplateId}.body_html";
-    $settings = (array) $this->configFactory->get($configName)->get('settings');
-    $allowedFormats = $settings['allowed_formats'] ?? ['email_html'];
-    if (!$allowedFormats) {
-      return;
-    }
-
-    $form['bodyHtml']['#allowed_formats'] = $allowedFormats;
+    $form['bodyHtml']['#allowed_formats'] = ['email_html'];
   }
 
 }
