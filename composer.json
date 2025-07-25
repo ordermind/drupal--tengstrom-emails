@@ -27,6 +27,7 @@
         "drupal/core": "^10 || ^11",
         "drupal/easy_email": "^3.0",
         "drupal/html_filter_token_workaround": "dev-master",
+        "drupal/symfony_mailer": "^1.6",
         "drupal/tengstrom_configuration": "dev-master",
         "drupal/tengstrom_partials": "dev-master",
         "ordermind/drupal--tengstrom-shared": "dev-master"
