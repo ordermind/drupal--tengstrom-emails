@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Defines the Inline CSS Email Adjuster.
  *
  * @EmailAdjuster(
- *   id = "tengstrom_mailer_inline_css",
+ *   id = "tengstrom_email_inline_css",
  *   label = @Translation("Inline CSS (Tengström)"),
  *   description = @Translation("Add inline CSS in an improved way."),
  *   weight = 900,
@@ -30,7 +30,7 @@ class InlineCssEmailAdjuster extends OverriddenAdjuster implements ContainerFact
     $plugin_id,
     $plugin_definition,
     AssetResolverInterface $assetResolver,
-    ThemeHandlerInterface $themeHandler
+    ThemeHandlerInterface $themeHandler,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $assetResolver);
 

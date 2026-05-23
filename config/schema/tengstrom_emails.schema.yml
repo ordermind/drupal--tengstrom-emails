@@ -1,0 +1,7 @@
+symfony_mailer.email_adjuster_plugin.tengstrom_email_html_only:
+  type: mapping
+  label: 'Tengström Email - HTML Only'
+
+symfony_mailer.email_adjuster_plugin.tengstrom_email_inline_css:
+  type: mapping
+  label: 'Tengström Email - Inline CSS'
